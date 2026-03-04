@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOIT VE Hub Gestione Accessi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Arial', 'Helvetica', 'sans-serif'],
+            },
+            colors: {
+              corporate: {
+                50: '#f2f7fc',
+                100: '#e1ecf8',
+                500: '#00549f',
+                600: '#003876', // RFI Blue Primary
+                800: '#00254f',
+                900: '#001a38',
+              },
+              rfi: {
+                red: '#E30613', // RFI Red
+                gray: '#555555'
+              }
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              bounceIn: {
+                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '50%': { transform: 'scale(1.02)' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              }
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.3s ease-out forwards',
+              'bounce-in': 'bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+              'slide-up': 'slideUp 0.4s ease-out forwards',
+            }
+          }
+        }
+      }
+    </script>
+    <script>
+      /* Polyfill essenziale: ExcelJS richiede 'global' e 'process' */
+      window.global = window;
+      if (typeof process === 'undefined') {
+        window.process = { env: {} };
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "xlsx": "https://esm.sh/xlsx@^0.18.5",
+    "exceljs": "https://esm.sh/exceljs@^4.4.0",
+    "vite": "https://esm.sh/vite@^7.2.7",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "path": "https://esm.sh/path@^0.12.7",
+    "pizzip": "https://esm.sh/pizzip@^3.2.0",
+    "docxtemplater": "https://esm.sh/docxtemplater@^3.67.6"
+  }
+}
+</script>
+</head>
+  <body class="bg-white text-slate-900 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
