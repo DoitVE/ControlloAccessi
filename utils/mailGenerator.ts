@@ -55,20 +55,13 @@ const COMMON_HEADER_TABLE = `
 
 const ACCESS_LISTS: Record<string, string[]> = {
   CASE_1: [
-    "Mestre: Via Trento 38 - Cancelletto laterale Tornelli (1232_CA)",
-    "Mestre: Via Trento 38 - Cancello Accesso Pedonale",
-    "Mestre: Via Trento 38 - Cancellone Accesso Carraio",
-    "Mestre: Via Trento 38 - Mensa"
+    "Mestre: Via Trento 38 - Cancelletto laterale Tornelli (1232_CA)"
   ],
   CASE_3: [
-    "Mestre: Via Trento 38 - Cancello Accesso Pedonale",
-    "Mestre: Via Trento 38 - Cancellone Accesso Carraio"
+    "Mestre: Via Trento 38 - Cancelletto laterale Tornelli (1232_CA)"
   ],
   CASE_6: [
-    "Mestre: Via Trento 38 - Cancelletto laterale Tornelli (1232_CA)",
-    "Mestre: Via Trento 38 - Cancello Accesso Pedonale",
-    "Mestre: Via Trento 38 - Cancellone Accesso Carraio",
-    "Mestre: Via Trento 38 - Mensa"
+    "Mestre: Via Trento 38 - Cancelletto laterale Tornelli (1232_CA)"
   ]
 };
 

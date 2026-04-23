@@ -386,14 +386,14 @@ export const updateElmoSheet = (workbook: ExcelJS.Workbook, elmoRaw: any[]): voi
         }
     });
 
-    // 2. Svuota i dati nelle colonne A-H per le righe esistenti, mantenendo le formule
+    // 2. Svuota i dati nelle colonne A-O (1-15) per le righe esistenti, mantenendo le formule
     // Questo previene sovrapposizioni di dati vecchi.
     const rowCount = elmoSheet.rowCount;
     if (rowCount >= 2) {
         for (let i = 2; i <= rowCount; i++) {
             const row = elmoSheet.getRow(i);
-            // Svuota colonne dati (1-8)
-            for (let c = 1; c <= 8; c++) {
+            // Svuota colonne dati (1-15)
+            for (let c = 1; c <= 15; c++) {
                 row.getCell(c).value = null;
             }
         }
@@ -408,16 +408,17 @@ export const updateElmoSheet = (workbook: ExcelJS.Workbook, elmoRaw: any[]): voi
         const rowIndex = index + 2;
         const row = elmoSheet.getRow(rowIndex);
         
-        // Aggiorna colonne dati A-G (1-7)
-        for (let c = 1; c <= 7; c++) {
-            row.getCell(c).value = rowData[c - 1] || "";
+        // Aggiorna tutte le colonne dati presenti nel CSV (fino a 15)
+        for (let c = 1; c <= 15; c++) {
+            const rawValue = rowData[c - 1] || "";
+            
+            if (c === 8) {
+                // --- NORMALIZZAZIONE COLONNA H (Tessera) ---
+                row.getCell(8).value = normalizeTo10(rawValue);
+            } else {
+                row.getCell(c).value = rawValue;
+            }
         }
-        
-        // --- NORMALIZZAZIONE COLONNA H (Tessera) ---
-        // Scriviamo il valore normalizzato a 10 cifre direttamente in H (8)
-        const tesseraRaw = rowData[7]; 
-        row.getCell(8).value = normalizeTo10(tesseraRaw);
-        // -------------------------------------------
         
         // Propaga le formule del template (riga 2) su tutti i righi successivi
         if (rowIndex > 2) {
