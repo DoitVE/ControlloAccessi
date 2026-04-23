@@ -47,14 +47,14 @@ const ServiceDeskMail: React.FC = () => {
     {
       id: 'CASE_1_DOIT_NO_TIMBRA',
       label: 'Personale Sede Esterna a Via Trento 38',
-      desc: 'Personale che non timbra in Via Trento 38: DOIT VE, CIRCOLAZIONE, DRUO, FERSERVIZI, FS SECURITY, ITALFERR, GRUPPO FS SEDI ESTERNE',
+      desc: 'Personale che non timbra in Via Trento 38: DOIT VE, CIRCOLAZIONE, DRUO, FERSERVIZI, FS SECURITY, ITALFERR, SE.RO.DI. (domandare se sede interna o esterna), TRENITALIA (domandare se sede interna o esterna), GRUPPO FS CON SEDI ESTERNE',
       icon: <Building2 className="text-blue-600" size={32} />,
       color: 'bg-blue-50 hover:border-blue-300'
     },
     {
       id: 'CASE_3_TIMBRA_VIA_TRENTO',
       label: 'Personale Sede Via Trento 38',
-      desc: 'Personale che timbra in Via Trento 38: INGEGNERIA, SICUREZZA, FORMAZIONE, UM TLC, UM SSE-LP, SE.RO.DI., TRENITALIA.',
+      desc: 'Personale che timbra in Via Trento 38: INGEGNERIA, SICUREZZA, FORMAZIONE, UM TLC, UM SSE-LP, SE.RO.DI., TRENITALIA (domandare se sede interna o esterna).',
       icon: <HardHat className="text-emerald-600" size={32} />,
       color: 'bg-emerald-50 hover:border-emerald-300'
     },
