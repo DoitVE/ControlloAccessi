@@ -9,7 +9,8 @@ import {
   Plus,
   Trash2,
   Building2,
-  HardHat
+  HardHat,
+  Info
 } from 'lucide-react';
 import { MailCase, MailFormData, generateEmlFile, PersonEntry } from '../utils/mailGenerator';
 
@@ -46,15 +47,17 @@ const ServiceDeskMail: React.FC = () => {
   const cases = [
     {
       id: 'CASE_1_DOIT_NO_TIMBRA',
-      label: 'Personale Sede Esterna a Via Trento 38',
-      desc: 'Personale che non timbra in Via Trento 38: DOIT VE, CIRCOLAZIONE, DRUO, FERSERVIZI, FS SECURITY, ITALFERR, SE.RO.DI. (domandare se sede interna o esterna), TRENITALIA (domandare se sede interna o esterna), GRUPPO FS CON SEDI ESTERNE',
+      label: 'Abilitazione passaggio senza timbratura da Via Trento 38',
+      desc: 'Solo per personale con sede esterna a Via Trento 38',
+      tooltip: 'Personale che non timbra in Via Trento 38: DOIT VE, CIRCOLAZIONE, DRUO, FERSERVIZI, FS SECURITY, ITALFERR, SE.RO.DI. (domandare se sede interna o esterna), TRENITALIA (domandare se sede interna o esterna), GRUPPO FS CON SEDI ESTERNE',
       icon: <Building2 className="text-blue-600" size={32} />,
       color: 'bg-blue-50 hover:border-blue-300'
     },
     {
       id: 'CASE_3_TIMBRA_VIA_TRENTO',
-      label: 'Personale Sede Via Trento 38',
-      desc: 'Personale che timbra in Via Trento 38: INGEGNERIA, SICUREZZA, FORMAZIONE, UM TLC, UM SSE-LP, SE.RO.DI., TRENITALIA (domandare se sede interna o esterna).',
+      label: 'Aggiornamento edizione timbratori Via Trento 38',
+      desc: 'Solo per personale con sede a Via Trento 38',
+      tooltip: 'Personale che timbra in Via Trento 38: INGEGNERIA, SICUREZZA, FORMAZIONE, UM TLC, UM SSE-LP, SE.RO.DI., TRENITALIA (domandare se sede interna o esterna).',
       icon: <HardHat className="text-emerald-600" size={32} />,
       color: 'bg-emerald-50 hover:border-emerald-300'
     },
@@ -70,7 +73,7 @@ const ServiceDeskMail: React.FC = () => {
   const handleOpenModal = (c: any) => {
     setSelectedCase(c.id);
     // Init with one empty entry
-    setEntries([{ nominativo: '', code: '', ditta: '' }]);
+    setEntries([{ nominativo: '', code: '', ditta: '', edizioneErrata: '' }]);
     setSwapData({
         swapTessera: '',
         oldNominativo: '',
@@ -86,7 +89,7 @@ const ServiceDeskMail: React.FC = () => {
 
   // --- Dynamic List Handlers ---
   const addEntry = () => {
-    setEntries(prev => [...prev, { nominativo: '', code: '', ditta: '' }]);
+    setEntries(prev => [...prev, { nominativo: '', code: '', ditta: '', edizioneErrata: '' }]);
   };
 
   const removeEntry = (idx: number) => {
@@ -146,8 +149,24 @@ const ServiceDeskMail: React.FC = () => {
             <div className="mb-4 bg-white p-4 rounded-full shadow-sm group-hover:scale-110 transition-transform">
               {c.icon}
             </div>
-            <h3 className="text-xl font-bold text-slate-800 mb-2">{c.label}</h3>
-            <p className="text-slate-500 text-sm">{c.desc}</p>
+            <h3 className="text-xl font-bold text-slate-800 mb-2 leading-snug">{c.label}</h3>
+            <div className="text-slate-500 text-sm flex items-center justify-center gap-1.5 flex-wrap">
+              <span>{c.desc}</span>
+              {c.tooltip && (
+                <div 
+                  className="relative group/tooltip inline-block cursor-help"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Info size={16} className="text-slate-400 hover:text-corporate-600 transition-colors" />
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                    <div className="relative bg-slate-800 text-white text-xs rounded-xl p-3 shadow-xl text-center font-normal normal-case leading-relaxed">
+                      {c.tooltip}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </button>
         ))}
       </div>
@@ -187,7 +206,7 @@ const ServiceDeskMail: React.FC = () => {
                                 </button>
                             )}
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className={`grid grid-cols-1 ${selectedCase === 'CASE_3_TIMBRA_VIA_TRENTO' ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-4`}>
                                 <div>
                                     <label className={LABEL_CLS}>Nominativo</label>
                                     <input 
@@ -211,6 +230,20 @@ const ServiceDeskMail: React.FC = () => {
                                         onChange={e => updateEntry(idx, 'code', e.target.value)}
                                     />
                                 </div>
+
+                                {selectedCase === 'CASE_3_TIMBRA_VIA_TRENTO' && (
+                                    <div>
+                                        <label className={LABEL_CLS}>Edizione Errata Ed.</label>
+                                        <input 
+                                            required
+                                            type="text" 
+                                            placeholder="Es. 01"
+                                            value={entry.edizioneErrata || ''}
+                                            className={INPUT_CLS}
+                                            onChange={e => updateEntry(idx, 'edizioneErrata', e.target.value)}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
