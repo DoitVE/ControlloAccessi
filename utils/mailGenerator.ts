@@ -11,6 +11,7 @@ export interface PersonEntry {
   nominativo: string;
   code: string; // Matricola or Tessera depending on context
   ditta?: string; // Optional, used for Pulizie (legacy/future proof)
+  edizioneErrata?: string; // Added for Case 3
 }
 
 export interface MailFormData {
@@ -124,8 +125,10 @@ const generateRecipientTable = (caseType: MailCase, data: MailFormData) => {
       </tr>
     `).join('');
 
+    const labelDipendenti = data.entries.length > 1 ? "Per i Dipendenti:" : "Per il Dipendente:";
+
     return `
-    <p style="font-family: Arial, sans-serif;">Per i Colleghi:</p>
+    <p style="font-family: Arial, sans-serif;">${labelDipendenti}</p>
     <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11pt; width: 60%; border: 1px solid black;">
       <tr>
         <td bgcolor="#D9D9D9" style="background-color: #D9D9D9; font-weight: bold; text-align: center; width: 60%; font-family: Arial, sans-serif;">NOMINATIVO</td>
@@ -222,9 +225,23 @@ export const generateEmlFile = async (caseType: MailCase, data: MailFormData) =>
   
   ${generateRecipientTable(caseType, data)}
   
-  <p style="font-family: Arial, sans-serif;">${getPreambolo(caseType)}</p>
-  
-  ${getAccessListHtml(caseType)}
+  ${caseType === 'CASE_3_TIMBRA_VIA_TRENTO' ? `
+    <p style="font-family: Arial, sans-serif;">Si riscontra l'errore:</p>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11pt; width: 30%; border: 1px solid black; margin-bottom: 15px;">
+      <tr>
+        <td bgcolor="#D9D9D9" style="background-color: #D9D9D9; font-weight: bold; text-align: center; font-family: Arial, sans-serif;">EDIZIONE ERRATA ED.</td>
+      </tr>
+      ${data.entries.map(entry => `
+        <tr>
+          <td style="text-align: center; font-family: Arial, sans-serif;">${entry.edizioneErrata || ''}</td>
+        </tr>
+      `).join('')}
+    </table>
+    <p style="font-family: Arial, sans-serif;">Si richiede <strong>risoluzione tramite aggiornamento</strong>.</p>
+  ` : `
+    <p style="font-family: Arial, sans-serif;">${getPreambolo(caseType)}</p>
+    ${getAccessListHtml(caseType)}
+  `}
   
   ${caseType === 'CASE_6_PULIZIE_SWAP' ? FOOTER_CASE_6 : FOOTER_STD}
   
